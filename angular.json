@@ -121,5 +121,8 @@
       }
     }
   },
-  "defaultProject": "demoNg"
+  "defaultProject": "demoNg",
+  "cli": {
+    "analytics": "f6766315-dc37-4b3d-83bd-660cdc5c754f"
+  }
 }
