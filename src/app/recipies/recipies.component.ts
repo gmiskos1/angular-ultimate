@@ -6,7 +6,7 @@ import { Recipie } from './recipie.model';
   selector: 'app-recipies',
   templateUrl: './recipies.component.html',
   styleUrls: ['./recipies.component.css'],
-  providers: [RecipeService]
+  //providers: [RecipeService] // if provided here. When we are going to shoppling list and get back here. The list is initiate again. so provide it in app module
 })
 export class RecipiesComponent implements OnInit {
   selectedRecipe: Recipie;

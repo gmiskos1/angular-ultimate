@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { RecipeService } from '../recipe.service';
 import { Recipie } from '../recipie.model';
 
@@ -8,14 +9,15 @@ import { Recipie } from '../recipie.model';
   templateUrl: './recipie-list.component.html',
   styleUrls: ['./recipie-list.component.css']
 })
-export class RecipieListComponent implements OnInit {
+export class RecipieListComponent implements OnInit, OnDestroy {
   //@Output() recipeWasSelected = new EventEmitter<Recipie>(); replaced from service cross-component communication
   recipies : Recipie[];
+  subscription:Subscription;
 
   constructor(private recipeService:RecipeService, private router:Router, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.recipeService.recipesChanged.subscribe(
+    this.subscription = this.recipeService.recipesChanged.subscribe(
       (recipes:Recipie[]) =>{
         this.recipies = recipes;
       }
@@ -30,5 +32,14 @@ export class RecipieListComponent implements OnInit {
 
   onNewRecipe(){
     this.router.navigate(['new'], {relativeTo:this.route})
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
+  onDeleteAll(){
+    this.recipeService.deleteAllRecipes();
+    this.router.navigate(['/recipes']);
   }
 }
